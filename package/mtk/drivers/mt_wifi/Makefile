@@ -301,16 +301,14 @@ define KernelPackage/mt_wifi/config
 	source "$(SOURCE)/config.in"
 endef
 
-define FIXUP_NEW_MCU_FW_API
+define MT_WIFI_SRC_PATCH
+	@if [ "$$(CONFIG_MTK_FW_NEW_API_PATCH)" = "y" ]; then \
 		echo "Fixup new mcu fw API"; \
-		patch -p1 -d $(PKG_BUILD_DIR) < ./files/fix-new-mcu-fw-api.patch
-	@if [ "$$(CONFIG_MTK_MT7986_NEW_FW)" = "y" ]; then \
-		echo "Fixup eeprom reading API"; \
-		patch -p1 -d $(PKG_BUILD_DIR) < ./files/eeprom-flash-api.patch; \
+		patch -p1 -d $(PKG_BUILD_DIR) < ./files/fix-new-mcu-fw-api.patch; \
 	fi
 endef
 
-Hooks/Prepare/Post := FIXUP_NEW_MCU_FW_API
+Hooks/Prepare/Post := MT_WIFI_SRC_PATCH
 
 define Build/Compile
 	+$(MAKE) $(PKG_JOBS) -C "$(LINUX_DIR)" \
