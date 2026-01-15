@@ -1229,6 +1229,12 @@ config MTK_6G_AFC_SUPPORT
 	depends on MTK_MT_AP_SUPPORT
 	default n
 
+config MTK_DFS_SLAVE_SUPPORT
+	bool "DFS-Slave Support"
+	depends on MTK_WIFI_DRIVER
+	depends on MTK_MT_AP_SUPPORT
+	default n
+	
 config MTK_VENDOR_FEATURE11_SUPPORT
         bool "Vendor11 Feature Enable"
         depends on MTK_WIFI_DRIVER
