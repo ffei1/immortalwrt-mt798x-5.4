@@ -66,7 +66,7 @@ MAKE_FLAGS += CONFIG_SUPPORT_OPENWRT=y
 define KernelPackage/warp/install
 	$(INSTALL_DIR) $(1)/lib/firmware
 	if [ "$$(CONFIG_WARP_CHIPSET)" = "mt7981" ]; then \
-		if [ "$$( )" = "y" ]; then \
+		if [ "$$(CONFIG_WARP_NEW_FW)" = "y" ]; then \
 			cp ./files/$$(MT7981_NEW_WOFW_DIR)/7981*WOCPU*_RAM_CODE_release.bin $(1)/lib/firmware/; \
 		else \
 			cp $(PKG_BUILD_DIR)/bin/7981*WOCPU*_RAM_CODE_release.bin $(1)/lib/firmware/; \
