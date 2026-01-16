@@ -17,9 +17,7 @@ MT7986_NEW_WOFW_DIR := mt7986-fw-20231228
 PKG_BUILD_DIR:=$(KERNEL_BUILD_DIR)/$(PKG_NAME)
 PKG_KCONFIG:= \
 	WARP_VERSION \
-	WARP_ATC_SUPPORT \
 	WARP_DBG_SUPPORT \
-	WARP_WDMA_RECYCLE_SUPPORT \
 	WED_HW_RRO_SUPPORT \
 	MTK_MEMORY_SHRINK \
 	WARP_CHIPSET \
@@ -45,13 +43,6 @@ endef
 define KernelPackage/warp/config
 	source "$(SOURCE)/config.in"
 endef
-
-ifeq ($(CONFIG_WARP_VERSION), 3)
-MTK_WIFI_DIR:=$(TOPDIR)/../ko_module/wlan_driver/logan
-else
-MTK_WIFI_DIR:=$(TOPDIR)/../ko_module/wlan_driver/jedi
-endif
-USE_BIN_DIR:=$(MTK_WIFI_DIR)/warp_driver/bin
 
 define Build/Compile
 	$(MAKE) -C "$(LINUX_DIR)" V=1 \
