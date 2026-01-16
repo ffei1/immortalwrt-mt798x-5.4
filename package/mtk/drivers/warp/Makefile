@@ -46,14 +46,6 @@ define KernelPackage/warp/config
 	source "$(SOURCE)/config.in"
 endef
 
-
-ifeq ($(CONFIG_WARP_VERSION), 3)
-MTK_WIFI_DIR:=$(TOPDIR)/../ko_module/wlan_driver/logan
-else
-MTK_WIFI_DIR:=$(TOPDIR)/../ko_module/wlan_driver/jedi
-endif
-USE_BIN_DIR:=$(MTK_WIFI_DIR)/warp_driver/bin
-
 define Build/Compile
 	$(MAKE) -C "$(LINUX_DIR)" V=1 \
 		$(KERNEL_MAKE_FLAGS) \
@@ -74,7 +66,7 @@ MAKE_FLAGS += CONFIG_SUPPORT_OPENWRT=y
 define KernelPackage/warp/install
 	$(INSTALL_DIR) $(1)/lib/firmware
 	if [ "$$(CONFIG_WARP_CHIPSET)" = "mt7981" ]; then \
-		if [ "$$(CONFIG_WARP_NEW_FW)" = "y" ]; then \
+		if [ "$$( )" = "y" ]; then \
 			cp ./files/$$(MT7981_NEW_WOFW_DIR)/7981*WOCPU*_RAM_CODE_release.bin $(1)/lib/firmware/; \
 		else \
 			cp $(PKG_BUILD_DIR)/bin/7981*WOCPU*_RAM_CODE_release.bin $(1)/lib/firmware/; \
