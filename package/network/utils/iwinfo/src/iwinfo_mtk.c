@@ -1,3 +1,4 @@
+
 #include <inttypes.h>
 #include "iwinfo.h"
 #include "iwinfo_wext.h"
@@ -588,6 +589,26 @@ static int mtk_get_scanlist(const char *dev, char *buf, int *len)
 	return 0;
 }
 
+static double wext_freq2float(const struct iw_freq *in)
+{
+	int		i;
+	double	res = (double) in->m;
+	for(i = 0; i < in->e; i++) res *= 10;
+	return res;
+}
+
+static inline int wext_freq2mhz(const struct iw_freq *in)
+{
+	if( in->e == 6 )
+	{
+		return in->m;
+	}
+	else
+	{
+		return (int)(wext_freq2float(in) / 1000000);
+	}
+}
+
 static int mtk_get_freqlist(const char *dev, char *buf, int *len)
 {
 	struct iwreq wrq;
@@ -667,10 +688,12 @@ static int mtk_get_countrylist(const char *dev, char *buf, int *len)
 
 static int mtk_get_hwmodelist(const char *dev, int *buf)
 {
+	const char *ifname;
+	char chans[IWINFO_BUFSIZE] = { 0 };
 	struct iwinfo_freqlist_entry *e = NULL;
 	struct uci_section *s;
 	const char* band = NULL;
-	int chband;
+	int len = 0;
 
 	*buf = 0;
 
@@ -719,10 +742,12 @@ uciout:
 
 static int mtk_get_htmodelist(const char *dev, int *buf)
 {
+	const char *ifname;
+	char chans[IWINFO_BUFSIZE] = { 0 };
 	struct iwinfo_freqlist_entry *e = NULL;
 	struct uci_section *s;
 	const char* band = NULL;
-	int chband;
+	int len = 0;
 
 	*buf = 0;
 
