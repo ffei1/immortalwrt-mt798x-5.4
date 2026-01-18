@@ -44,6 +44,13 @@ define KernelPackage/warp/config
 	source "$(SOURCE)/config.in"
 endef
 
+ifeq ($(CONFIG_WARP_VERSION), 3)
+MTK_WIFI_DIR:=$(TOPDIR)/../ko_module/wlan_driver/logan
+else
+MTK_WIFI_DIR:=$(TOPDIR)/../ko_module/wlan_driver/jedi
+endif
+USE_BIN_DIR:=$(MTK_WIFI_DIR)/warp_driver/bin
+
 define Build/Compile
 	$(MAKE) -C "$(LINUX_DIR)" V=1 \
 		$(KERNEL_MAKE_FLAGS) \
